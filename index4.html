@@ -1,0 +1,4517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            --thead-top_and_left_bg: #21c488;
+            --thead-top_and_left_text: white;
+
+            -ms-scroll-chaining: none;
+            overscroll-behavior: contain;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            background-color: #be2edd;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 16px;
+            border: none;
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            /* #eaff00 */
+            background-color: var(--thead-top_and_left_bg);
+            background-clip: padding-box;
+            border: 4px solid var(--thead-top_and_left_text);
+            border-radius: 20px;
+            box-shadow: 0px 0px 2px 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            border: none;
+            border-radius: 10px;
+        }
+
+        .table-wrapper {
+            border: solid 1px black;
+            overflow: scroll;
+            flex-grow: 1;
+            width: 95%;
+            height: 90vh;
+            margin-top: 50px;
+            border-radius: 10px;
+            background-color: #fff;
+            border: none;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            width: 1000vw;
+        }
+
+
+        thead :is(tr:first-child>th:first-child) {
+            position: sticky;
+            padding: .5rem;
+            z-index: 1;
+            top: 0;
+            -webkit-box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+            -moz-box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+            box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+        }
+
+        thead {
+            position: sticky;
+            padding: .5rem;
+            z-index: 2;
+            top: 0;
+            -webkit-box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+            -moz-box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+            box-shadow: -2px 19px 15px -6px rgba(34, 60, 80, 0.2);
+        }
+
+        thead th {
+            background-color: var(--thead-top_and_left_bg);
+            color: white;
+        }
+
+        /*********************first th *********************/
+        thead tr:first-child> :first-child {
+            z-index: 1;
+            left: 0;
+            top: 0;
+            background-color: var(--thead-top_and_left_bg);
+        }
+
+        /*********************first th *********************/
+
+        tbody tr> :first-child {
+            /* background: #ddd; */
+            position: sticky;
+            z-index: 1;
+            left: 0;
+            color: rgb(255, 255, 255);
+            border: 1px solid white;
+        }
+
+        tr {
+            height: 2.3em;
+        }
+
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid rgb(255, 255, 255);
+
+        }
+
+        tbody tr td,
+        tbody tr th {
+            background-color: transparent;
+        }
+
+
+        thead:nth-child(2) tr:nth-child(1)> :nth-child(1),
+        tbody th {
+            color: var(--thead-top_and_left_text);
+            width: 300px;
+            text-align: left;
+            background-color: var(--thead-top_and_left_bg) !important;
+            height: 1.em;
+            border: 1px solid white;
+            -webkit-box-shadow: 12px 0px 7px -4px rgba(34, 60, 80, 0.2);
+            -moz-box-shadow: 12px 0px 7px -4px rgba(34, 60, 80, 0.2);
+            box-shadow: 12px 0px 7px -4px rgba(34, 60, 80, 0.2);
+        }
+
+        /* tbody tr:hover td {
+            background-color: rgb(255, 82, 82);
+            border: 5px solid;
+        } */
+
+        tbody tr:nth-child(2n+1) {
+            background-color: #dad4d4;
+        }
+
+        tbody tr:nth-child(2n) {
+            background-color: #a1a0a0;
+        }
+
+
+
+        tbody tr:hover td:nth-child(n),
+        tbody tr:hover th:nth-child(n) {
+            /* background-color: rgb(228, 228, 228) !important; */
+            border: 3px solid white;
+            border-collapse: collapse;
+        }
+
+
+        tbody td:nth-child(n):hover .input_item {
+            color: rgb(255, 255, 255);
+
+        }
+
+
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .input_item {
+            width: 100px;
+            border: none;
+            outline: none;
+            background-color: transparent;
+            text-align: center;
+
+
+        }
+
+        .active {
+            background-color: #57dd2e !important;
+            /* height: 100px; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="table-wrapper">
+        <table class="styled-table display">
+
+        </table>
+    </div>
+    <script defer="defer">
+
+        let data1 = {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": {
+                "id": "AA - 000011",
+                "name": "Основной",
+                "key": [
+                    {
+                        "name": "Остатка",
+                        "value": 18,
+                        "isactive": true
+                    },
+
+                ]
+            }
+        }
+
+
+        let datas = [{
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18,
+                            "isactive": true
+                        },
+                        {
+                            "name": "План",
+                            "value": 0,
+                            "isactive": false
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 14,
+                            "isactive": true
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "tovar": {
+                "id": "AS-00000143",
+                "name": "Алмагель суспензия 170 мл"
+            },
+            "appteka": [
+                {
+                    "id": "AA-000011",
+                    "name": "Основной",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 18
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Излишки",
+                            "value": 18
+                        }
+                    ]
+                },
+                {
+                    "id": "00-000001",
+                    "name": "A4",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000001",
+                    "name": "A2",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 10
+                        },
+                        {
+                            "name": "План",
+                            "value": 9
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000002",
+                    "name": "A3",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 8
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000003",
+                    "name": "A1",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 5
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000004",
+                    "name": "A5",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 5
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000005",
+                    "name": "A6",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 7
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000006",
+                    "name": "A7",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": -2
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000007",
+                    "name": "A8",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 9
+                        },
+                        {
+                            "name": "План",
+                            "value": 10
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000008",
+                    "name": "A9",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000009",
+                    "name": "A10",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 7
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 1
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000010",
+                    "name": "A11",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 6
+                        },
+                        {
+                            "name": "План",
+                            "value": 6
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "id": "AA-000013",
+                    "name": "A15",
+                    "key": [
+                        {
+                            "name": "Остатка",
+                            "value": 0
+                        },
+                        {
+                            "name": "План",
+                            "value": 0
+                        },
+                        {
+                            "name": "Отклонения",
+                            "value": 0
+                        },
+                        {
+                            "name": "Распределено",
+                            "value": 2
+                        }
+                    ]
+                }
+            ]
+        }]
+        const table = document.querySelector("table");
+        const tbody = createElement("tbody");
+
+        dataAll(datas)
+        // keyUp()
+        function keyUp() {
+            let tovar = {};
+            let appteka = {};
+            document.querySelectorAll("input")
+                .forEach(element => {
+                    let value = null;
+                    element.addEventListener("change", (el) => {
+                        console.log(+el.target.value);
+                        value = +el.target.value
+                        console.log("target", el.target.parentNode.getAll);
+
+
+                    })
+                })
+        }
+
+        function dataAll(data) {
+            const allData = typeof data == "object" ? data : JSON.parse(data);
+            console.log("sasas", allData);
+
+            allData.forEach((value, index) => {
+                // let index = +index;
+                switch (+index) {
+                    case 0:
+                        console.log(index);
+                        tr_table_first(value)
+                        break;
+
+                    default:
+                        tr_table_second(allData)
+                        break;
+                }
+
+            })
+        }
+
+        /******************************FIRST TABLE ROW******************************/
+        function tr_table_first(data) {
+            const Appteka = data.appteka;
+
+            const thead = createElement("thead");
+            const tr = createElement("tr");
+
+            append(tr,
+                createElement("th", {
+                    rowspan: "2",
+                    text: "Tovar"
+                }))
+            /******************tr 2******************/
+            const name_tr = createElement("tr")
+            /******************tr 2******************/
+
+            Appteka.forEach((element, app_index) => {
+
+                /********Основной created********/
+                let count_key = element.key.length;
+                append(tr, createElement("th", {
+                    colspan: count_key,
+                    text: element.name
+                }))
+                /********Основной created********/
+
+
+                /********name created********/
+                element.key.forEach((key_name, index) => {
+                    append(name_tr, createElement("th", {
+                        text: key_name.name
+                    }))
+                });
+
+                append(thead, tr)
+                append(thead, name_tr)
+                append(table, thead)
+            });
+
+
+        }
+        /******************************FIRST TABLE ROW******************************/
+        /******************************SECOND TABLE ROW******************************/
+
+        function tr_table_second(data) {
+
+            data.forEach((element, index) => {
+                const tr = createElement("tr");
+                const Tovar = element.tovar;
+                /******************************TABLE heading******************************/
+                append(tr, createElement("th", {
+                    text: Tovar.name,
+
+                }))
+                // debugger
+                /******************************TABLE heading******************************/
+                /******************************TABLE data******************************/
+                const Appteka = element.appteka;
+                Appteka.forEach((element, index) => {
+                    element.key.forEach((el, index) => {
+                        append(tr, createElement("td", {
+                            class: "boder_right",
+                            "data-appteka_id": element.id,
+                            "data-appteka_name": element.name,
+                            "data-tovar_id": Tovar.id,
+                            "data-tovar_name": Tovar.name,
+                            "data-category_name": el.name,
+                            obj: {
+                                value: el.value,
+                                isactive: el.isactive,
+                                class: "input_item",
+
+                            }
+
+                        }))
+                    })
+
+
+                })
+
+                /******************************TBODY ROW Append******************************/
+                append(tbody, tr)
+                /******************************TBODY ROW Append******************************/
+            })
+
+        }
+        /******************************TABLE ROW Append******************************/
+        console.log("adsawerwreERWERWER ", table);
+        append(table, tbody)
+        /******************************TABLE ROW Append******************************/
+        /******************************SECOND TABLE ROW******************************/
+        function th_table(data) {
+            for (const value of data) {
+                console.log(value);
+            }
+        }
+
+        function createElement(element = "", obj = {}) {
+            if (element) {
+                let el = document.createElement(element);
+                let input = document.createElement("input");
+
+                for (const [key, value] of Object.entries(obj)) {
+                    switch (key) {
+                        case "text":
+                            el.textContent = value;
+                            break;
+                        case "obj":
+                            // console.log(value);
+                            input.value = value.value;
+                            input.type = "number"
+                            input.className = value.class;
+                            input.readOnly = value.isactive;
+                            input.addEventListener("wheel", (element) => {
+                                element.preventDefault()
+                            })
+
+                            // console.log(input);
+                            append(el, input)
+
+                            break;
+
+
+                        default:
+                            el.setAttribute(key, value)
+                            break;
+                    }
+                }
+                return el;
+            }
+        }
+        function append(parent, child) {
+            return parent.appendChild(child);
+        }
+
+        function remove() {
+
+            document.querySelectorAll("tbody tr").forEach(element => {
+                console.log("trhhhhh", element);
+                if (element.classList.contains("active")) {
+                    element.classList.remove("active");
+                    element.firstElementChild.classList.remove("active");
+                    console.log(element.classList);
+                }
+            })
+        }
+        document.querySelectorAll("tbody tr").forEach(element => {
+            element.addEventListener("click", el => {
+                // el.target.classList.("active");
+                remove();
+                element.classList.add("active");
+                element.firstElementChild.classList.add("active");
+                console.log(element.firstChild);
+
+            })
+        })
+
+    </script>
+</body>
+
+</html>
