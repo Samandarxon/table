@@ -144,11 +144,6 @@
             box-shadow: 12px 0px 7px -4px rgba(34, 60, 80, 0.2);
         }
 
-        /* tbody tr:hover td {
-            background-color: rgb(255, 82, 82);
-            border: 5px solid;
-        } */
-
         tbody tr:nth-child(2n+1) {
             background-color: #dad4d4;
         }
@@ -161,7 +156,6 @@
 
         tbody tr:hover td:nth-child(n),
         tbody tr:hover th:nth-child(n) {
-            /* background-color: rgb(228, 228, 228) !important; */
             border: 3px solid white;
             border-collapse: collapse;
         }
@@ -4317,22 +4311,6 @@
         const tbody = createElement("tbody");
 
         dataAll(datas)
-        // keyUp()
-        function keyUp() {
-            let tovar = {};
-            let appteka = {};
-            document.querySelectorAll("input")
-                .forEach(element => {
-                    let value = null;
-                    element.addEventListener("change", (el) => {
-                        console.log(+el.target.value);
-                        value = +el.target.value
-                        console.log("target", el.target.parentNode.getAll);
-
-
-                    })
-                })
-        }
 
         function dataAll(data) {
             const allData = typeof data == "object" ? data : JSON.parse(data);
@@ -4491,22 +4469,22 @@
 
         function remove() {
 
-            document.querySelectorAll("tbody tr").forEach(element => {
-                console.log("trhhhhh", element);
-                if (element.classList.contains("active")) {
-                    element.classList.remove("active");
-                    element.firstElementChild.classList.remove("active");
-                    console.log(element.classList);
+            const matches = document.querySelectorAll('.active');
+            if (matches.length > 0) {
+                for (let i = 0; i < matches.length; i++) {
+                    matches[i].classList.remove('active');
                 }
-            })
+            }
+
         }
         document.querySelectorAll("tbody tr").forEach(element => {
+            // console.log("element >>>>>>>",element);
             element.addEventListener("click", el => {
-                // el.target.classList.("active");
                 remove();
+
                 element.classList.add("active");
                 element.firstElementChild.classList.add("active");
-                console.log(element.firstChild);
+                // console.log(element.firstChild);
 
             })
         })
